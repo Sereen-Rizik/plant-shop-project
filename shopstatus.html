@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>מצב החנות</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4efea;
+        color: #3e3e3e;
+        margin: 0;
+        padding: 0;
+        direction: rtl;
+      }
+
+      .navbar {
+        background-color: #e4dcce;
+        overflow: hidden;
+      }
+
+      .navbar ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+      }
+
+      .navbar li {
+        display: inline-block;
+      }
+
+      .navbar li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 20px;
+        text-decoration: none;
+      }
+
+      .navbar li a:hover {
+        background-color: #3e5137;
+      }
+
+      h1 {
+        color: #3e5137;
+        text-align: center;
+        margin-top: 2rem;
+      }
+
+      .status-box {
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 1.5rem;
+        max-width: 600px;
+        margin: 2rem auto;
+      }
+
+      .status-box p {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- סרגל ניווט -->
+    <nav class="navbar">
+      <ul>
+        <li><a href="mang.html">בית</a></li>
+        <li><a href="addplant.html">הוספת שתיל/מוצר</a></li>
+        <li><a href="plantlist.html">רשימת שתילים/מוצרים</a></li>
+        <li><a href="shopstatus.html">מצב החנות</a></li>
+        <li><a href="reports.html">הפקת דוחות</a></li>
+        <li><a href="orders.html">הזמנות</a></li>
+        <li><a href="index.html">התנתק</a></li>
+        <li><a href="users.html">ניהול משתמשים</a></li>
+      </ul>
+    </nav>
+
+    <!-- כותרת -->
+    <h1>מצב החנות</h1>
+
+    <!-- תוכן עיקרי -->
+    <div class="status-box">
+      <p>סה"כ שתילים במערכת: <strong id="totalPlants">0</strong></p>
+      <p>שתילים במלאי נמוך (פחות מ-5): <strong id="lowStock">0</strong></p>
+    </div>
+
+    <script>
+      // נניח שיש נתוני שתילים באחסון המקומי
+      const plants = JSON.parse(localStorage.getItem("plants")) || [];
+
+      const totalPlants = plants.length;
+      const lowStock = plants.filter((p) => p.stock < 5).length;
+
+      document.getElementById("totalPlants").textContent = totalPlants;
+      document.getElementById("lowStock").textContent = lowStock;
+    </script>
+  </body>
+</html>

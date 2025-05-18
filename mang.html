@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>דף מנהל – חנות שתילים</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        direction: rtl;
+  background-color: #f4efea;
+      }
+
+      header {
+        background: linear-gradient(to left, #66bb6a, #388e3c);
+        color: white;
+        padding: 0.1rem 1.5rem;
+        text-align: center;
+        font-size: 2.6rem;
+        font-weight: bold;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        position: relative;
+        min-height: 110px;
+      }
+
+      /* כפתורים בצד ימין */
+      .header-buttons {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .header-buttons button {
+        padding: 0.5rem 1rem;
+        background: linear-gradient(to right, #4caf50, #81c784);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .header-buttons button:hover {
+        background-color: #45a049;
+      }
+
+      /* לוגו בצד שמאל */
+      .logo-area {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        align-items: center;
+      }
+
+      .logo-area img {
+        width: 60px;
+        margin-right: 10px;
+      }
+
+      .logo-area .logo-text h1,
+      .logo-area .logo-text p {
+        margin: 0;
+        color: white;
+      }
+      .logo-area .logo-text h1 { font-size: 1.4rem; }
+      .logo-area .logo-text p  { font-size: 1rem; }
+
+      .content {
+        padding: 2rem;
+      }
+
+      .dashboard {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        justify-content: center;
+      }
+
+      .card {
+        background-color: white;
+        width: 260px;
+        padding: 1.8rem;
+        border-radius: 15px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+      }
+
+      .card img {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 1rem;
+      }
+
+      .card h3 {
+        margin-bottom: 0.5rem;
+        color: #2e7d32;
+        font-size: 1.3rem;
+      }
+
+      .card p {
+        font-size: 1.2rem;
+        color: #555;
+      }
+
+      .chart-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        background-color: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .chart-container h3 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: #388e3c;
+        font-size: 1.6rem;
+      }
+
+      /* התראה על מלאי אזל */
+      .alert {
+        display: none;
+        background-color: #ffcccc;
+        color: darkred;
+        padding: 1rem;
+        margin: 1rem 2rem;
+        border-radius: 8px;
+        font-weight: bold;
+        text-align: center;
+        font-size: 1.1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <!-- לוגו בצד שמאל -->
+      <div class="logo-area">
+        <img src="images/plant.png" alt="לוגו" />
+        <div class="logo-text">
+          <h1>FUTURE GREEN</h1>
+          <p>by Jana & Sereen</p>
+        </div>
+      </div>
+
+      <!-- כפתורי ניווט בצד ימין -->
+      <div class="header-buttons">
+        <button onclick="location.href='addplant.html'">הוספת שתיל/מוצר</button>
+        <button onclick="location.href='plantlist.html'">רשימת מוצרים</button>
+        <button onclick="location.href='shopstatus.html'">מצב החנות</button>
+        <button onclick="location.href='reports.html'">הפקת דוחות</button>
+        <button onclick="location.href='orders.html'">הזמנות</button>
+        <button onclick="location.href='logout.html'">התנתק</button>
+        <button onclick="location.href='users.html'">ניהול משתמשים  </button>
+        
+
+      </div>
+    </header>
+
+    <!-- התראה על מוצרים אזלים -->
+    <div id="outOfStockAlert" class="alert"></div>
+
+    <div class="content">
+      <section class="dashboard">
+        <!-- קיים -->
+        <div class="card">
+          <img src="https://cdn-icons-png.flaticon.com/512/3843/3843150.png" alt="שתיל" />
+          <h3>סה"כ שתילים</h3>
+          <p id="totalPlants">0</p>
+        </div>
+        <!-- חדש: לקוחות רשומים -->
+        <div class="card">
+          <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="לקוחות" />
+          <h3>לקוחות רשומים</h3>
+          <p id="registeredUsers">0</p>
+        </div>
+        <!-- קיים -->
+        <div class="card">
+          <img src="https://cdn-icons-png.flaticon.com/512/2042/2042559.png" alt="הזמנות" />
+          <h3>הזמנות פתוחות</h3>
+          <p id="openOrders">0</p>
+        </div>
+        <!-- חדש: סך כל הזמנות -->
+        <div class="card">
+          <img src="https://cdn-icons-png.flaticon.com/512/1471/1471839.png" alt="כל ההזמנות" />
+          <h3>סך כל הזמנות</h3>
+          <p id="totalOrders">0</p>
+        </div>
+        <!-- קיים -->
+        <div class="card">
+          <img src="https://cdn-icons-png.flaticon.com/512/1008/1008928.png" alt="מלאי נמוך" />
+          <h3>מלאי נמוך</h3>
+          <p id="lowStock">0</p>
+        </div>
+        <!-- קיים -->
+        <div class="card">
+          <img src="https://cdn-icons-png.flaticon.com/512/1170/1170576.png" alt="מכירות" />
+          <h3>מכירות יומית</h3>
+          <p>₪1,250</p>
+        </div>
+      </section>
+
+      <section class="chart-container">
+        <h3>גרף תשלומים חודשי</h3>
+        <canvas id="paymentChart"></canvas>
+      </section>
+    </div>
+
+    <script>
+      const ctx = document.getElementById("paymentChart").getContext("2d");
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: ["ינואר", "פברואר", "מרץ", "אפריל", "מאי"],
+          datasets: [
+            {
+              label: "תשלומים (₪)",
+              data: [1200, 900, 1400, 1000, 1600],
+              backgroundColor: "#66bb6a",
+            },
+          ],
+        },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+      });
+
+      function updateTotalPlants() {
+        const el = document.getElementById("totalPlants");
+        const plants = JSON.parse(localStorage.getItem("plants") || "[]");
+        el.textContent = plants.reduce((sum, p) => sum + (parseInt(p.stock)||0), 0);
+      }
+
+      function updateRegisteredUsers() {
+        const el = document.getElementById("registeredUsers");
+        const users = JSON.parse(localStorage.getItem("customers") || "[]");
+        el.textContent = users.length;
+      }
+
+      function updateOpenOrders() {
+        const el = document.getElementById("openOrders");
+        const orders = JSON.parse(localStorage.getItem("orders") || "[]");
+        el.textContent = orders.filter(o => o.status==="בהמתנה"||o.status==="בטיפול").length;
+      }
+
+      function updateTotalOrders() {
+        const el = document.getElementById("totalOrders");
+        const orders = JSON.parse(localStorage.getItem("orders") || "[]");
+        el.textContent = orders.length;
+      }
+
+      function updateLowStock() {
+        const el = document.getElementById("lowStock");
+        const plants = JSON.parse(localStorage.getItem("plants") || "[]");
+        el.textContent = plants.filter(p => parseInt(p.stock)<3).length;
+      }
+
+      function checkOutOfStock() {
+        const alertDiv = document.getElementById("outOfStockAlert");
+        const plants = JSON.parse(localStorage.getItem("plants") || "[]");
+        if (plants.some(p=>parseInt(p.stock)===0)) {
+          alertDiv.style.display = "block";
+          alertDiv.textContent = "⚠️ שימו לב: יש מוצרים אזלים מהמלאי!";
+        } else {
+          alertDiv.style.display = "none";
+        }
+      }
+
+      // עדכון ראשוני וכל 5 שניות
+      updateTotalPlants();
+      updateRegisteredUsers();
+      updateOpenOrders();
+      updateTotalOrders();
+      updateLowStock();
+      checkOutOfStock();
+      setInterval(() => {
+        updateTotalPlants();
+        updateRegisteredUsers();
+        updateOpenOrders();
+        updateTotalOrders();
+        updateLowStock();
+        checkOutOfStock();
+      }, 5000);
+    </script>
+  </body>
+</html>

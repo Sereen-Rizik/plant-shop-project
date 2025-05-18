@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>מערכת ניהול הזמנות</title>
+  <link rel="stylesheet" href="css/orders.css">
+  <style>
+    /* קצת סגנון ניווט */
+    .navbar {
+      background-color: #e4dcce;
+      padding: 0.5rem 0;
+    }
+    .navbar ul {
+      list-style: none;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar li {
+      display: inline-block;
+    }
+    .navbar a {
+      display: block;
+      color: white;
+      padding: 0.5rem 1rem;
+      text-decoration: none;
+    }
+    .navbar a:hover {
+      background-color: #3e5137;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ניווט עליון -->
+  <nav class="navbar">
+    <ul>
+      <li><a href="mang.html">בית</a></li>
+      <li><a href="addplant.html">הוספת מוצר</a></li>
+      <li><a href="plantlist.html">רשימת מוצרים</a></li>
+      <li><a href="shopstatus.html">מצב החנות</a></li>
+      <li><a href="reports.html">הפקת דוחות</a></li>
+      <li><a href="orders.html">הזמנות</a></li>
+    </ul>
+  </nav>
+
+  <!-- טבלת הזמנות -->
+  <main class="orders-container">
+    <table class="orders-table">
+      <thead>
+        <tr>
+          <th>מס'</th>
+          <th>אימייל</th>
+          <th>תאריך</th>
+          <th>מוצרים</th>
+          <th>כמות</th>
+          <th>סטטוס</th>
+          <th>פעולות</th>
+        </tr>
+      </thead>
+      <tbody id="ordersBody">
+        <!-- יימולא ע"י JS -->
+      </tbody>
+    </table>
+
+  </main>
+
+  <script>
+  (function(){
+    // מצב ברירת־מחדל
+    const defaultOrders = [
+      { id:1001, email:'dana@example.com', date:'16/04/2025', items:'קקטוס ננסי, לבנדר', qty:'2,1', status:'בהמתנה' },
+      { id:1002, email:'roi@example.com',  date:'17/04/2025', items:'עץ תות',            qty:'1',    status:'בטיפול'     },
+      { id:1003, email:'maya@example.com', date:'18/04/2025', items:'סוקולנט',           qty:'5',    status:'הושלמה'     }
+    ];
+
+    // קרא מה־localStorage
+    let orders;
+    try {
+      orders = JSON.parse(localStorage.getItem('orders'));
+    } catch(e) {
+      orders = null;
+    }
+
+    // בדוק תקינות – מערך של אובייקטים עם id ו־email
+    const valid = Array.isArray(orders) && orders.every(o=>o.id && o.email && o.date && o.items && o.qty && o.status);
+    if (!valid) {
+      orders = defaultOrders;
+      localStorage.setItem('orders', JSON.stringify(orders));
+    }
+
+    const tbody = document.getElementById('ordersBody');
+
+    // מיפוי סטטוס למחלקת CSS
+    function statusClass(s) {
+      return {
+        'בהמתנה':    'pending',
+        'בטיפול':     'processing',
+        'נשלחה':      'processing',
+        'הושלמה':     'completed',
+        'בוטל':       'cancelled'
+      }[s] || 'pending';
+    }
+
+    // הרשם מחדש את הטבלה
+    function renderOrders() {
+      tbody.innerHTML = '';
+      orders.forEach((o,i) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>#${o.id}</td>
+          <td>${o.email}</td>
+          <td>${o.date}</td>
+          <td>${o.items}</td>
+          <td>${o.qty}</td>
+          <td>
+            <span class="status-badge status-${statusClass(o.status)}">
+              ${o.status}
+            </span>
+          </td>
+          <td>
+            <button class="action-btn change-btn" data-idx="${i}">שנה</button>
+            <button class="action-btn delete-btn" data-idx="${i}">מחק</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // אירוע שינוי סטטוס
+      document.querySelectorAll('.change-btn').forEach(btn => {
+        btn.onclick = () => {
+          const i = +btn.dataset.idx;
+          const states = ['בהמתנה','בטיפול','נשלחה','הושלמה','בוטל'];
+          let idx = states.indexOf(orders[i].status);
+          orders[i].status = states[(idx+1) % states.length];
+          localStorage.setItem('orders', JSON.stringify(orders));
+          renderOrders();
+        };
+      });
+
+      // אירוע מחיקה
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.onclick = () => {
+          const i = +btn.dataset.idx;
+          if (confirm('למחוק הזמנה זו?')) {
+            orders.splice(i,1);
+            localStorage.setItem('orders', JSON.stringify(orders));
+            renderOrders();
+          }
+        };
+      });
+    }
+
+    renderOrders();
+  })();
+  </script>
+</body>
+</html>

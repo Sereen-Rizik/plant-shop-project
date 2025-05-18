@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>מצא גנן – Future Green</title>
+  <link rel="icon" href="images/plant.ico">
+  <link rel="stylesheet" href="css/find.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container header-content">
+      <div class="logo-area">
+        <img src="images/plant.png" alt="לוגו" class="logo-img">
+        <div class="logo-text">
+          <h1 class="site-title">future green</h1>
+          <p class="site-subtitle">by jana &amp; sereen</p>
+        </div>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="shop.html">חנות</a></li>
+          <li><a href="about.html">אודות</a></li>
+          <li><a href="login.html">התחברות</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container main-content">
+    <!-- Hero + Filters -->
+    <section class="hero">
+      <h1>מצא גנן או מעצבי גינות</h1>
+      <div class="filters">
+        <div class="filter">
+          <label for="searchCity">עיר:</label>
+          <input type="text" id="searchCity" placeholder="הקלידו עיר...">
+        </div>
+        <div class="filter">
+          <label for="typeSelect">עובדי מקצוע :</label>
+          <select id="typeSelect">
+            <option value="">הכל</option>
+            <option value="gardener">מעצבי גינות</option>
+            <option value="farmer">חקלאי</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cards -->
+    <section class="cards" id="cardsContainer">
+      <div class="card" data-cities="יפו,עכו" data-type="gardener">
+        <img src="images/m1.jpeg" alt="בעלר באירון">
+        <div class="info">
+          <h3>בעלר באירון</h3>
+          <p class="role">מעצב גננים</p>
+          <p class="city">יפו, עכו</p>
+          <p class="phone">(555) 123‑4567</p>
+        </div>
+      </div>
+      <div class="card" data-cities="חיפה" data-type="farmer">
+        <img src="images/m2.jpg" alt="הלמך נגוענה">
+        <div class="info">
+          <h3>הלמך נגוענה</h3>
+          <p class="role">חקלאי</p>
+          <p class="city">חיפה</p>
+          <p class="phone">(555) 234‑5678</p>
+        </div>
+      </div>
+      <div class="card" data-cities="ירושלים" data-type="gardener">
+        <img src="images/m3.jpg" alt="תמאלר אורמור">
+        <div class="info">
+          <h3>תמאלר אורמור</h3>
+          <p class="role">מעצב גננים</p>
+          <p class="city">ירושלים</p>
+          <p class="phone">(555) 345‑6789</p>
+        </div>
+      </div>
+      <div class="card" data-cities="תל אביב" data-type="farmer">
+        <img src="images/m1.jpeg" alt="שרה נאלכוס">
+        <div class="info">
+          <h3>שרה נאלכוס</h3>
+          <p class="role">חקלאית</p>
+          <p class="city">ראשון לציון, פתח תקווה</p>
+          <p class="phone">(555) 456‑7890</p>
+        </div>
+      </div>
+      <div class="card" data-cities="אשדוד" data-type="gardener">
+        <img src="images/m2.jpg" alt="יעומצה רומומא">
+        <div class="info">
+          <h3>יעומצה רומומא</h3>
+          <p class="role">מעצב גננים</p>
+          <p class="city">אשדוד</p>
+          <p class="phone">(555) 355‑6780</p>
+        </div>
+      </div>
+      <div class="card" data-cities="באר שבע,אופקים" data-type="farmer">
+        <img src="images/m3.jpg" alt="צמאור ררומר">
+        <div class="info">
+          <h3>צמאור ררומר</h3>
+          <p class="role">חקלאי</p>
+          <p class="city">באר שבע, אופקים</p>
+          <p class="phone">(555) 456‑7890</p>
+        </div>
+      </div>
+      <div class="card" data-cities="נתניה" data-type="gardener">
+        <img src="images/m1.jpeg" alt="אלון שעריר">
+        <div class="info">
+          <h3>אלון שעריר</h3>
+          <p class="role">מעצב גננים</p>
+          <p class="city">נתניה</p>
+          <p class="phone">(555) 567‑8901</p>
+        </div>
+      </div>
+      <div class="card" data-cities="ראשון לציון,פתח תקווה" data-type="farmer">
+        <img src="images/m2.jpg" alt="דנה פרידמן">
+        <div class="info">
+          <h3>דנה פרידמן</h3>
+          <p class="role">חקלאית</p>
+          <p class="city">ראשון לציון, פתח תקווה</p>
+          <p class="phone">(555) 678‑9012</p>
+        </div>
+      </div>
+      <div class="card" data-cities="קרית גת" data-type="gardener">
+        <img src="images/m3.jpg" alt="יונתן ירוק">
+        <div class="info">
+          <h3>יונתן ירוק</h3>
+          <p class="role">מעצב גננים</p>
+          <p class="city">קרית גת</p>
+          <p class="phone">(555) 789‑0123</p>
+        </div>
+      </div>
+      <div class="card" data-cities="בית שמש,מודיעין עילית" data-type="farmer">
+        <img src="images/m3.jpg" alt="נועה פרחי">
+        <div class="info">
+          <h3>נועה פרחי</h3>
+          <p class="role">חקלאית</p>
+          <p class="city">בית שמש, מודיעין עילית</p>
+          <p class="phone">(555) 890‑1234</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <p>© 2025 כל הזכויות שמורות – Future Green</p>
+    </div>
+  </footer>
+
+  <!-- JavaScript לסינון הכרטיסים -->
+  <script>
+    const cityInput  = document.getElementById('searchCity');
+    const typeSelect = document.getElementById('typeSelect');
+    const cards      = document.querySelectorAll('.card');
+
+    function filterCards() {
+      const city = cityInput.value.trim();
+      const type = typeSelect.value;
+      cards.forEach(card => {
+        const cities = card.dataset.cities.split(',').map(c => c.trim());
+        const cardType = card.dataset.type;
+        const matchCity = city === '' ||
+          cities.some(c => c.includes(city));
+        const matchType = type === '' || cardType === type;
+        card.style.display = (matchCity && matchType) ? 'flex' : 'none';
+      });
+    }
+
+    cityInput.addEventListener('input', filterCards);
+    typeSelect.addEventListener('change', filterCards);
+  </script>
+</body>
+</html>

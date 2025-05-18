@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>הוספת שתיל</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4efea;
+        color: #3e3e3e;
+        margin: 0;
+        padding: 0;
+        direction: rtl;
+      }
+
+      .navbar {
+        background-color: #e4dcce;
+        overflow: hidden;
+      }
+
+      .navbar ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+      }
+
+      .navbar li {
+        display: inline-block;
+      }
+
+      .navbar li a {
+        display: block;
+        color: white;
+        padding: 14px 20px;
+        text-decoration: none;
+      }
+
+      .navbar li a:hover {
+        background-color: #3e5137;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 2rem auto;
+        background-color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        color: #3e5137;
+        text-align: center;
+      }
+
+      label {
+        font-weight: bold;
+        display: block;
+        margin-top: 1rem;
+      }
+
+      input {
+        width: 100%;
+        padding: 0.5rem;
+        margin-top: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      button {
+        background-color: #3e5137;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        margin-top: 1.5rem;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #3e5137;
+      }
+
+      table {
+        width: 100%;
+        margin-top: 2rem;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 0.75rem;
+        text-align: center;
+      }
+
+      th {
+        background-color: #3e5137;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- סרגל ניווט -->
+    <nav class="navbar">
+      <ul>
+        <li><a href="mang.html">בית</a></li>
+        <li><a href="addplant.html">הוספת שתיל/מוצר</a></li>
+        <li><a href="plantlist.html">רשימת שתילים/מוצרים</a></li>
+        <li><a href="shopstatus.html">מצב החנות</a></li>
+        <li><a href="reports.html">הפקת דוחות</a></li>
+        <li><a href="orders.html">הזמנות</a></li>
+        <li><a href="logout.html">התנתק</a></li>
+        <li><a href="users.html">ניהול משתמשים  </a></li>
+      </ul>
+    </nav>
+
+    <!-- תוכן עמוד -->
+    <div class="container">
+      <h1>הוספת שתיל/מוצר חדש</h1>
+      <form id="plantForm">
+        <label for="name">שם השתיל/המוצר:</label>
+        <input type="text" id="name" required />
+
+        <label for="description">תיאור:</label>
+        <textarea id="description" required style="height:100px;width: 102%;"></textarea>
+    
+        <label for="price">מחיר (₪):</label>
+        <input type="number" id="price" required />
+
+        <label for="stock">כמות במלאי:</label>
+        <input type="number" id="stock" required />
+
+          <label for="image">תמונה:</label>
+        <input type="file" id="image" accept="image/*" required />
+
+
+        <button type="submit">הוסף שתיל</button>
+      </form>
+    </div>
+
+    <script>
+      const form = document.getElementById("plantForm");
+      const tableBody = document.querySelector("#plantTable tbody");
+
+      // טען שתילים מ-localStorage
+      let plants = JSON.parse(localStorage.getItem("plants")) || [];
+
+      function renderPlants() {
+        tableBody.innerHTML = "";
+        plants.forEach((plant) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+          <td>${plant.name}</td>
+          <td>${plant.type}</td>
+          <td>${plant.price} ₪</td>
+          <td>${plant.stock}</td>
+        `;
+          tableBody.appendChild(row);
+        });
+      }
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const name = document.getElementById("name").value;
+        const type = document.getElementById("type").value;
+        const price = parseFloat(document.getElementById("price").value);
+        const stock = parseInt(document.getElementById("stock").value);
+
+        if (!name || !type || isNaN(price) || isNaN(stock)) return;
+
+        plants.push({ name, type, price, stock });
+        localStorage.setItem("plants", JSON.stringify(plants));
+
+        form.reset();
+        renderPlants();
+      });
+
+      renderPlants();
+    </script>
+  </body>
+</html>

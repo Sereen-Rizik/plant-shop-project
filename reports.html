@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>הפקת דוחות</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4efea;
+        color: #3e3e3e;
+        padding: 2rem;
+        direction: rtl;
+      }
+
+      .navbar {
+        background-color: #e4dcce;
+        overflow: hidden;
+        margin-bottom: 2rem;
+      }
+
+      .navbar ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+      }
+
+      .navbar li {
+        display: inline-block;
+      }
+
+      .navbar li a {
+        display: block;
+        color: white;
+        padding: 14px 20px;
+        text-decoration: none;
+      }
+
+      .navbar li a:hover {
+        background-color: #3e5137;
+      }
+
+      h1 {
+        color: #3e5137;
+        text-align: center;
+      }
+
+      .report-container {
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .report-container h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 2rem;
+      }
+
+      .report-container table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 2rem;
+      }
+
+      .report-container th,
+      .report-container td {
+        padding: 1rem;
+        border: 1px solid #ddd;
+        text-align: center;
+      }
+
+      .report-container th {
+        background-color: #f2f2f2;
+        color: #333;
+      }
+
+      .report-container td {
+        background-color: #fafafa;
+      }
+
+      #generateReport {
+        display: block;
+        margin: 0 auto;
+        padding: 1rem 2rem;
+        background-color: #3e5137;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        text-align: center;
+        width: 200px;
+      }
+
+      #generateReport:hover {
+        background-color: #3e5137;
+      }
+
+      @media (max-width: 768px) {
+        .report-container {
+          padding: 1.5rem;
+        }
+
+        .report-container h2 {
+          font-size: 1.5rem;
+        }
+
+        .report-container table {
+          font-size: 0.9rem;
+        }
+
+        #generateReport {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <ul>
+        <li><a href="mang.html">בית</a></li>
+        <li><a href="addplant.html">הוספת שתיל/מוצר</a></li>
+        <li><a href="plantlist.html">רשימת שתילים/מוצרים</a></li>
+        <li><a href="shopstatus.html">מצב החנות</a></li>
+        <li><a href="reports.html">הפקת דוחות</a></li>
+        <li><a href="orders.html">הזמנות</a></li>
+        <li><a href="logout.html">התנתק</a></li>
+        <li><a href="users.html">ניהול משתמשים</a></li>
+      </ul>
+    </nav>
+
+    <h1>הפקת דוחות</h1>
+
+    <div class="report-container">
+      <h2>רשימת שתילים</h2>
+      <table id="plantTable">
+        <thead>
+          <tr>
+            <th>שם השתיל</th>
+            <th>סוג</th>
+            <th>מחיר</th>
+            <th>כמות במלאי</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <button id="generateReport">הפק דוח PDF</button>
+    </div>
+
+    <script>
+      const plants = JSON.parse(localStorage.getItem("plants")) || [];
+
+      function updateTable() {
+        const tableBody = document.querySelector("#plantTable tbody");
+        tableBody.innerHTML = "";
+
+        plants.forEach((plant) => {
+          const price = parseFloat(plant.price) || 0;
+
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${plant.name}</td>
+            <td>${plant.type}</td>
+            <td>${price.toFixed(2)} ₪</td>
+            <td>${plant.stock}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+      }
+
+      updateTable();
+
+      document
+        .getElementById("generateReport")
+        .addEventListener("click", () => {
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF({ orientation: "p", unit: "mm", format: "a4" });
+
+          doc.setFont("helvetica");
+          doc.setFontSize(16);
+          doc.text("דוח רשימת שתילים", 105, 10, { align: "center" });
+
+          doc.setFontSize(12);
+          let y = 20;
+
+          plants.forEach((plant, index) => {
+            const price = parseFloat(plant.price) || 0;
+            const line = `${index + 1}. ${plant.name}, סוג: ${
+              plant.type
+            }, מחיר: ${price.toFixed(2)} ₪, מלאי: ${plant.stock}`;
+            doc.text(line, 10, y);
+            y += 10;
+
+            if (y > 280) {
+              doc.addPage();
+              y = 20;
+            }
+          });
+
+          doc.save("plant-list-report.pdf");
+        });
+    </script>
+  </body>
+</html>

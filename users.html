@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>דף ניהול משתמשים – Future Green</title>
+  <link rel="icon" href="images/plant.ico">
+  <link rel="stylesheet" href="css/users.css">
+<style>
+    /* קצת סגנון ניווט */
+    .navbar {
+      background-color: #e4dcce;
+      padding: 0.5rem 0;
+    }
+    .navbar ul {
+      list-style: none;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar li {
+      display: inline-block;
+    }
+    .navbar a {
+      display: block;
+      color: white;
+      padding: 0.5rem 1rem;
+      text-decoration: none;
+    }
+    .navbar a:hover {
+      background-color: #3e5137;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ניווט עליון -->
+  <nav class="navbar">
+    <ul>
+      <li><a href="mang.html">בית</a></li>
+      <li><a href="addplant.html">הוספת מוצר</a></li>
+      <li><a href="plantlist.html">רשימת מוצרים</a></li>
+      <li><a href="shopstatus.html">מצב החנות</a></li>
+      <li><a href="reports.html">הפקת דוחות</a></li>
+      <li><a href="orders.html">הזמנות</a></li>
+      <li><a href="users.html">ניהול משתמשים</a></li>
+    </ul>
+  </nav>
+
+  <section class="search-section">
+      <input type="text" id="searchInput" placeholder="חפש לפי שם משתמש..." />
+    </section>
+
+  <!-- טבלת משתמשים סטטית -->
+  <main class="users-container">
+    <table class="users-table">
+      <thead>
+        <tr>
+          <th>מס'</th>
+          <th>שם פרטי</th>
+          <th>שם משפחה</th>
+          <th>אימייל</th>
+          <th>טלפון</th>
+          <th>מספר הזמנות</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>דנה</td>
+          <td>כהן</td>
+          <td>dana@example.com</td>
+          <td>050-1234567</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>חגי</td>
+          <td>לי</td>
+          <td>hagi@example.com</td>
+          <td>052-7654321</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>נועה</td>
+          <td>רון</td>
+          <td>noa@example.com</td>
+          <td>054-1122334</td>
+          <td>0</td>
+        </tr>
+        <!-- ניתן להוסיף כאן משתמשים נוספים -->
+      </tbody>
+    </table>
+  </main>
+
+ 
+</body>
+</html>

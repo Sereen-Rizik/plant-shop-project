@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>חנות השתילים שלנו</title>
+  <link rel="stylesheet" href="css/shop.css" />
+  <style>
+    /* עיצוב לחלונית קופצת */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      right: 0;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 90%;
+      text-align: right;
+      position: relative;
+    }
+
+    .modal-content h3 {
+      margin-top: 0;
+      color: #2e7d32;
+    }
+
+    .close-btn {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0;
+      align-items: center;
+    }
+
+    .filter-bar input,
+    .filter-bar select {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- شريط علوي (الهيدر) -->
+  <header class="main-header">
+    <div class="container header-content">
+      <!-- اسم الموقع والشعار -->
+      <div class="logo-area">
+  <img src="images/plant.png" alt="شعار الموقع">
+  <div class="logo-text">
+    <h1 class="site-title">future green</h1>
+    <p class="site-subtitle">by jana &amp; sereen</p>
+  </div>
+</div>
+
+      <!-- قائمة التنقل -->
+      <nav class="main-nav">
+        <ul>
+           <li>
+            <img src="images/shopping.ico" alt="עגלת קניות" class="nav-icon">
+            <a href="index.html">דף הבית</a>
+            <a href="about.html">אודות</a>
+            <a href="#">התנתקות</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h2 class="page-title">ברוכים הבאים לחנות השתילים</h2>
+
+    <!-- סרגל חיפוש וסינון -->
+    <div class="filter-bar">
+      <input type="text" id="searchInput" placeholder="חפש לפי שם..." />
+      <select id="weatherFilter">
+        <option value="">תנאי מזג אוויר</option>
+        <option value="שמש">שמש</option>
+        <option value="צל">צל</option>
+        <option value="חצי צל">חצי צל</option>
+      </select>
+      <select id="priceFilter">
+        <option value="">מיין לפי מחיר</option>
+        <option value="asc">מחיר מהנמוך לגבוה</option>
+        <option value="desc">מחיר מהגבוה לנמוך</option>
+      </select>
+    </div>
+
+    <section class="product-grid">
+      <!-- המוצרים יתווספו כאן באמצעות JavaScript -->
+    </section>
+  </main>
+
+  <footer class="main-footer">
+    <p>Jana shaban & sereen Rizik</p>
+  </footer>
+
+  <!-- חלונית קופצת -->
+  <div id="modal" class="modal" onclick="closeModal(event)">
+    <div class="modal-content" id="modalContent">
+      <button class="close-btn" onclick="closeModal(event)">×</button>
+      <h3 id="modalTitle"></h3>
+      <p id="modalDescription"></p>
+    </div>
+  </div>
+
+  <script>
+    const plants = [
+      {
+        name: "שתיל בזיליקום",
+        description: "בזיליקום דורש שמש מלאה והשקיה סדירה אך לא מופרזת. מתאים לגידול באדנית או עציץ.",
+        price: 15,
+        weather: "שמש",
+        image: "https://plantas.co.il/wp-content/uploads/2022/10/%D7%91%D7%96%D7%99%D7%9C%D7%99%D7%A7%D7%95%D7%9D-1.jpg"
+      },
+      {
+        name: "שתיל נענע",
+        description: "נענע מתפתחת במהירות ודורשת השקיה בשפע ואור שמש חלקי. צמח פשוט לגידול – אין צורך בגן מקצועי.",
+        price: 12,
+        weather: "חצי צל",
+        image: "https://www.yifrach.co.il/images/storeProducts_image1_id1466_rndI413.jpg"
+      },
+      {
+        name: "שתיל עגבנייה",
+        description: "יש לשתול במקום שטוף שמש, לתמוך בצמח עם עמודים ולדאוג להשקיה עמוקה.",
+        price: 18,
+        weather: "שמש",
+        image: "https://www.plants4u.co.il/wp-content/uploads/2023/08/%D7%A2%D7%92%D7%91%D7%A0%D7%99%D7%94-%D7%A9%D7%A8%D7%99-1.jpg"
+      },
+      {
+        name: "עצמון עם תחתית",
+        description: "מותאם לשימוש ביתי. מתאים למרפסת מוצלת.",
+        price: 20,
+        weather: "צל",
+        image: "https://h-shtilshop.co.il/wp-content/uploads/2022/09/%D7%A2%D7%A6%D7%9E%D7%95%D7%9F-%D7%A2%D7%9D-%D7%A6%D7%9C%D7%97%D7%AA-%D7%9E%D7%95%D7%9B%D7%9F-1.jpg"
+      }
+    ];
+
+    const grid = document.querySelector(".product-grid");
+    const searchInput = document.getElementById("searchInput");
+    const weatherFilter = document.getElementById("weatherFilter");
+    const priceFilter = document.getElementById("priceFilter");
+
+    function renderProducts(data) {
+      grid.innerHTML = "";
+      data.forEach((plant, index) => {
+        grid.innerHTML += `
+          <div class="product-card">
+            <img src="${plant.image}" alt="${plant.name}" onclick="showModal(${index})">
+            <h3>${plant.name}</h3>
+            <p>${plant.description.split('.')[0]}</p>
+            <span class="price">₪${plant.price}</span>
+            <button class="button">הוסף לסל</button>
+          </div>`;
+      });
+    }
+
+    function filterProducts() {
+      let filtered = [...plants];
+
+      const search = searchInput.value.trim();
+      const weather = weatherFilter.value;
+      const priceOrder = priceFilter.value;
+
+      if (search) {
+        filtered = filtered.filter(p => p.name.includes(search));
+      }
+
+      if (weather) {
+        filtered = filtered.filter(p => p.weather === weather);
+      }
+
+      if (priceOrder === "asc") {
+        filtered.sort((a, b) => a.price - b.price);
+      } else if (priceOrder === "desc") {
+        filtered.sort((a, b) => b.price - a.price);
+      }
+
+      renderProducts(filtered);
+    }
+
+    searchInput.addEventListener("input", filterProducts);
+    weatherFilter.addEventListener("change", filterProducts);
+    priceFilter.addEventListener("change", filterProducts);
+
+    renderProducts(plants);
+
+    function showModal(index) {
+      const modal = document.getElementById("modal");
+      const title = document.getElementById("modalTitle");
+      const desc = document.getElementById("modalDescription");
+
+      title.textContent = plants[index].name;
+      desc.textContent = plants[index].description;
+      modal.style.display = "flex";
+    }
+
+    function closeModal(e) {
+      if (e.target.id === "modal" || e.target.classList.contains("close-btn")) {
+        document.getElementById("modal").style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>

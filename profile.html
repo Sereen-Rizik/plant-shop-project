@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>חשבון אישי </title>
+  <link rel="icon" href="images/plant.ico" type="image/x-icon">
+  <link rel="stylesheet" href="css/profile.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container header-content">
+      <div class="logo-area">
+        <img src="images/plant.png" alt="לוגו">
+        <div class="logo-text">
+          <h1 class="site-title">future green</h1>
+          <p class="site-subtitle">by jana &amp; sereen</p>
+        </div>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html">דף הבית</a></li>
+          <li><a href="about.html">אודות</a></li>
+          <li><a href="profile.html" class="active">אזור אישי</a></li>
+          <li><a href="shop.html">חנות</a></li>
+          <li><a href="logout.html">התנתקות</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <!-- Main Content -->
+  <main class="container profile-container">
+
+    <!-- כרטיס פרטי חשבון -->
+    <section class="profile-card">
+      <h2>החשבון שלי</h2>
+      <div class="profile-grid">
+        <div><strong>שם משתמש:</strong></div><div>סירין ריזק</div>
+        <div><strong>אימייל:</strong></div><div>jana_shaban@ac.il</div>
+        <div><strong>טלפון:</strong></div><div>055-588-8822</div>
+        <div><strong>כתובת:</strong></div><div>הרצל 5, תל אביב</div>
+        <div><strong>סיסמה:</strong></div><div>••••••••</div>
+      </div>
+      <button class="btn-primary" id="editProfile">עדכן פרטים</button>
+    </section>
+
+    <!-- כרטיס היסטוריית הזמנות -->
+    <section class="orders-card">
+      <div class="orders-header">
+        <h2>היסטורית הזמנות</h2>
+      </div>
+      <div class="orders-grid">
+        <!-- הזמנה #001 – הגיעה -->
+        <div class="order-item">
+          <div class="order-header">
+            <span class="order-number">#001</span>
+            <span class="order-date">16/04/2025</span>
+          </div>
+          <div class="order-status completed">הגיעה</div>
+          <div class="order-total">סה"כ: <strong>75 ₪</strong></div>
+          <button class="btn-details">צפה בפרטים</button>
+        </div>
+
+        <!-- הזמנה #002 – בוטלה -->
+        <div class="order-item">
+          <div class="order-header">
+            <span class="order-number">#002</span>
+            <span class="order-date">10/04/2025</span>
+          </div>
+          <div class="order-status cancelled">בוטלה</div>
+          <div class="order-total">סה"כ: <strong>120 ₪</strong></div>
+          <button class="btn-details">צפה בפרטים</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <p>Jana shaban & Sereen rizik</p>
+    </div>
+  </footer>
+
+</body>
+</html>

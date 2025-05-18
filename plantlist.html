@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>רשימת שתילים</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4efea;
+        color: #3e3e3e;
+        margin: 0;
+        padding: 0;
+        direction: rtl;
+      }
+
+      .navbar {
+        background-color: #e4dcce;
+        overflow: hidden;
+      }
+
+      .navbar ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+      }
+
+      .navbar li {
+        display: inline-block;
+      }
+
+      .navbar li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 20px;
+        text-decoration: none;
+      }
+
+      .navbar li a:hover {
+        background-color: #3e5137;
+      }
+
+      header {
+        background-color: #3e5137;
+        color: white;
+        padding: 1rem;
+        text-align: center;
+        font-size: 1.5rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .container {
+        padding: 2rem;
+        max-width: 1200px;
+        margin: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      th,
+      td {
+        padding: 1rem;
+        border: 1px solid #ccc;
+        text-align: center;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+
+      .btn {
+        background-color: #3e5137;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        background-color: #3e5137;
+      }
+
+      .delete-btn {
+        background-color: #f44336;
+      }
+
+      .delete-btn:hover {
+        background-color: #d32f2f;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <ul>
+        <li><a href="mang.html">בית</a></li>
+        <li><a href="addplant.html">הוספת שתיל/מוצר</a></li>
+        <li><a href="plantlist.html">רשימת שתילים/מוצרים</a></li>
+        <li><a href="shopstatus.html">מצב החנות</a></li>
+        <li><a href="reports.html">הפקת דוחות</a></li>
+        <li><a href="orders.html">הזמנות</a></li>
+        <li><a href="logout.html">התנתק</a></li>
+        <li><a href="users.html">ניהול משתמשים</a></li>
+      </ul>
+    </nav>
+
+    <!-- ... כל ההתחלה זהה ... -->
+
+    <div class="container">
+      <h2>רשימת שתילים/מוצרים</h2>
+
+      <!-- התראות שתילים חסרים -->
+      <div id="alerts"></div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>שם</th>
+            <th>סוג</th>
+            <th>מחיר</th>
+            <th>כמות</th>
+            <th>עריכה</th>
+            <th>מחיקה</th>
+          </tr>
+        </thead>
+        <tbody id="plantList">
+          <!-- שתילים ייכנסו לכאן בעזרת JavaScript -->
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      const plants = JSON.parse(localStorage.getItem("plants") || "[]");
+      const plantList = document.getElementById("plantList");
+      const alertsDiv = document.getElementById("alerts");
+
+      function updatePlantList() {
+        plantList.innerHTML = "";
+        alertsDiv.innerHTML = "";
+
+        plants.forEach((plant, index) => {
+          const row = document.createElement("tr");
+
+          // בדיקה אם המלאי נגמר
+          let stockCellContent = plant.stock;
+          if (parseInt(plant.stock) === 0) {
+            stockCellContent = `<span style="color: red; font-weight: bold;">${plant.stock} ⚠️ <span style="font-size: 0.9em;">(אזל מהמלאי)</span></span>`;
+            const alert = document.createElement("div");
+            alert.style.backgroundColor = "#fff3f3";
+            alert.style.border = "1px solid #e08080";
+            alert.style.padding = "1rem";
+            alert.style.marginBottom = "1rem";
+            alert.style.borderRadius = "8px";
+            alert.innerHTML = `⚠️ <strong>שים לב:</strong> השתיל <strong style="color: darkred;">"${plant.name}"</strong> אזל מהמלאי!`;
+            alertsDiv.appendChild(alert);
+          }
+
+          row.innerHTML = `
+            <td>${plant.name}</td>
+            <td>${plant.type}</td>
+            <td>${plant.price} ₪</td>
+            <td>${stockCellContent}</td>
+            <td><button class="btn" onclick="editPlant(${index})">ערוך</button></td>
+            <td><button class="btn delete-btn" onclick="deletePlant(${index})">מחק</button></td>
+          `;
+          plantList.appendChild(row);
+        });
+      }
+
+      function editPlant(index) {
+        const plant = plants[index];
+        const newName = prompt("שם השתיל", plant.name);
+        const newType = prompt("סוג השתיל", plant.type);
+        const newPrice = prompt("מחיר השתיל", plant.price);
+        const newStock = prompt("כמות השתיל במלאי", plant.stock);
+
+        if (newName && newType && newPrice && newStock) {
+          plant.name = newName;
+          plant.type = newType;
+          plant.price = newPrice;
+          plant.stock = newStock;
+          localStorage.setItem("plants", JSON.stringify(plants));
+          updatePlantList();
+        }
+      }
+
+      function deletePlant(index) {
+        if (confirm("האם אתה בטוח שברצונך למחוק את השתיל?")) {
+          plants.splice(index, 1);
+          localStorage.setItem("plants", JSON.stringify(plants));
+          updatePlantList();
+        }
+      }
+
+      updatePlantList();
+    </script>
+  </body>
+</html>

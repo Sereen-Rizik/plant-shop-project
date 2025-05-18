@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>עגלת קניות – Future Green</title>
+  <link rel="icon" href="images/plant.ico">
+  <link rel="stylesheet" href="css/cart.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container header-content">
+      <div class="logo-area">
+        <img src="images/plant.png" alt="לוגו" class="logo-img">
+        <div class="logo-text">
+          <h1 class="site-title">future green</h1>
+          <p class="site-subtitle">by jana &amp; sereen</p>
+        </div>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li>
+            <img src="images/shopping.ico" alt="עגלת קניות" class="nav-icon">
+            <a href="index.html">דף הבית</a>
+            <a href="about.html">אודות</a>
+            <a href="#">התנתקות</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container main-content">
+    <section class="cart-section">
+      <h2>עגלת הקניות שלי</h2>
+      <table class="cart-table">
+        <thead>
+          <tr>
+            <th>מוצר</th>
+            <th>מחיר יחידה</th>
+            <th>כמות</th>
+            <th>סה"כ מוצר</th>
+            <th>הסר</th>
+          </tr>
+        </thead>
+        <tbody id="cartBody">
+          <tr data-price="25.00">
+            <td class="product-info">
+              <img src="images/cart1.jpeg" alt="שתיל קקטוס"><span>קקטוס ננסי</span>
+            </td>
+            <td class="unit-price">25.00 ₪</td>
+            <td><input type="number" class="qty" value="1" min="1"></td>
+            <td class="subtotal">25.00 ₪</td>
+            <td><button class="remove-btn">×</button></td>
+          </tr>
+          <tr data-price="40.00">
+            <td class="product-info">
+              <img src="images/cart2.jpeg" alt="שתיל לבנדר"><span>לבנדר</span>
+            </td>
+            <td class="unit-price">40.00 ₪</td>
+            <td><input type="number" class="qty" value="2" min="1"></td>
+            <td class="subtotal">80.00 ₪</td>
+            <td><button class="remove-btn">×</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="cart-summary">
+        <p>סה"כ לתשלום ללא מע"מ : <span id="totalPrice">105.00 ₪</span></p>
+        <button id="checkoutBtn" class="checkout-btn">המשך לתשלום</button>
+      </div>
+
+      <!-- תיבת Checkout חבויה עד הלחיצה -->
+      <div id="checkoutBox" class="checkout-box hidden">
+        <h3>פרטי תשלום</h3>
+        <form id="checkoutForm">
+          <!-- <label for="firstName">שם פרטי:</label>
+          <input type="text" id="firstName" required>
+
+          <label for="lastName">שם משפחה:</label>
+          <input type="text" id="lastName" required>
+
+          <label for="guestAddress">כתובת:</label>
+          <input type="text" id="guestAddress" required>
+
+          <label for="guestEmail">אימייל:</label>
+          <input type="email" id="guestEmail" required>
+
+          <label for="guestPhone">טלפון:</label>
+          <input type="tel" id="guestPhone" required> -->
+
+          <label for="paypalCode">קוד PayPal:</label>
+          <input type="text" id="paypalCode" required>
+
+          <div class="vat-summary">
+            <p>מע"מ (17%): <span id="vatAmount">0.00 ₪</span></p>
+            <p>סה"כ כולל מע"מ: <span id="totalWithVat">0.00 ₪</span></p>
+          </div>
+
+          <button type="submit" class="button">אישור תשלום</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <p>© 2025 Jana shaban & Sereen rizik</p>
+    </div>
+  </footer>
+
+  <script>
+    const cartBody      = document.getElementById('cartBody');
+    const totalPriceEl  = document.getElementById('totalPrice');
+    const checkoutBtn   = document.getElementById('checkoutBtn');
+    const checkoutBox   = document.getElementById('checkoutBox');
+    const vatAmountEl   = document.getElementById('vatAmount');
+    const totalWithVatEl= document.getElementById('totalWithVat');
+    const checkoutForm  = document.getElementById('checkoutForm');
+
+    function updateTotals() {
+      let total = 0;
+      cartBody.querySelectorAll('tr').forEach(row => {
+        const price = parseFloat(row.dataset.price);
+        const qty   = parseInt(row.querySelector('.qty').value);
+        const sub   = price * qty;
+        row.querySelector('.subtotal').textContent = sub.toFixed(2) + ' ₪';
+        total += sub;
+      });
+      totalPriceEl.textContent = total.toFixed(2) + ' ₪';
+      return total;
+    }
+
+    cartBody.addEventListener('input', e => {
+      if (e.target.classList.contains('qty')) updateTotals();
+    });
+    cartBody.addEventListener('click', e => {
+      if (e.target.classList.contains('remove-btn')) {
+        e.target.closest('tr').remove();
+        updateTotals();
+      }
+    });
+
+    checkoutBtn.addEventListener('click', () => {
+      const total = updateTotals();
+      const vat   = total * 0.17;
+      vatAmountEl.textContent      = vat.toFixed(2) + ' ₪';
+      totalWithVatEl.textContent   = (total + vat).toFixed(2) + ' ₪';
+      checkoutBox.classList.remove('hidden');
+      checkoutBox.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    checkoutForm.addEventListener('submit', e => {
+      e.preventDefault();
+      checkoutBox.innerHTML = `
+        <div class="confirmation">
+          <h3>תודה על ההזמנה!</h3>
+          <p>סה"כ כולל מע"מ: ${totalWithVatEl.textContent}</p>
+          <p>נשלח לכתובת שנמסרה במייל.</p>
+        </div>`;
+    });
+
+    updateTotals();
+  </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ניהול - מנהל האתר</title>
+    <link rel="icon" href="images/plant.ico" type="image/x-icon" />
+    <!-- ربط ملف CSS الخاص בדף המנהל -->
+    <link rel="stylesheet" href="css/admin.css" />
+  </head>
+  <body>
+    <header class="main-header">
+      <div class="container">
+        <div class="logo">
+          <img src="images/plant.png" alt="לוגו" />
+          <div class="logo-text">
+            <h1>future green</h1>
+          </div>
+        </div>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="index.html">דף הבית</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="admin-login">
+        <h2>התחברות מנהל</h2>
+        <form id="adminLoginForm">
+          <label for="adminUsername">שם משתמש:</label>
+          <input type="text" id="adminUsername" required />
+
+          <label for="adminPassword">סיסמה:</label>
+          <input type="password" id="adminPassword" required />
+
+          <button type="submit" class="button">התחבר</button>
+        </form>
+      </section>
+
+      <!-- לאחר התחברות, תוצג לוח ניהול -->
+      <section
+        class="admin-dashboard"
+        id="adminDashboard"
+        style="display: none"
+      >
+        <h2>לוח ניהול</h2>
+        <h3>ניהול הזמנות</h3>
+        <div class="order-item">
+          <p>הזמנה מספר 001 - מצב: בהכנה</p>
+          <button class="update-order" data-order-id="001">עדכן מצב</button>
+        </div>
+        <h3>ניהול מלאי מוצרים</h3>
+        <div class="inventory-item">
+          <p>שתיל נוי - כמות במלאי: 50</p>
+          <button class="update-inventory" data-product-id="1">
+            עדכן מלאי
+          </button>
+        </div>
+        <h3>פרטי יצירת קשר עם מנהל</h3>
+        <p>טלפון: 03-1234567</p>
+        <p>אימייל: admin@seedstore.com</p>
+      </section>
+    </main>
+
+    <footer class="main-footer">
+      <div class="container">
+        <p>© 2025 כל הזכויות שמורות</p>
+      </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>
